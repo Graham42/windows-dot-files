@@ -20,3 +20,11 @@ if has('clipboard')
   set clipboard=unnamed  
 endif  
 ```
+
+## Install Git
+
+```ps1
+winget install Git.Git
+```
+
+Restart Powershell
