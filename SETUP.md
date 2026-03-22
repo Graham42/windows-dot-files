@@ -60,3 +60,5 @@ winget install Git.Git
 ```
 
 Restart Powershell
+
+The install script sets up the gitconfig include automatically (see [Apply dotfiles](#apply-dotfiles) below).

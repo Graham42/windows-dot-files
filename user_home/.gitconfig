@@ -1,0 +1,76 @@
+[user]
+	name = Graham McGregor
+	email = 2476733+Graham42@users.noreply.github.com
+
+[init]
+	defaultBranch = main
+
+[color]
+	interactive = true
+
+# make untracked and changes visibly different
+[color "status"]
+	added = green bold
+	changed = red bold
+	untracked = cyan
+
+[color "branch"]
+	current = green bold
+	local = bold
+	remote = red bold
+
+[color "grep"]
+	match = cyan
+
+[pager]
+	color = true
+
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore_global
+
+[alias]
+	l = log --graph --stat --find-copies --decorate
+	d = diff
+	s = status -s
+	co = checkout
+	b = branch
+	ri = rebase --interactive --autostash  --update-refs
+	# pretty print short log
+	sl = log --pretty=format:'\
+%C(red)%h %Creset\
+%<(62,trunc)%C(normal)%s %Creset\
+%C(bold blue)(%Creset\
+%C(green)%an %Creset\
+%C(bold blue)%cr)%Creset\
+' --color --graph
+	oops = commit --amend --no-edit
+	standup = log --all --since=yesterday --author='Graham McGregor'
+	pretty-log-branch = log HEAD ^origin/integration --graph --stat --find-copies --date-order
+	paragraph-diff = diff --word-diff-regex=[^[:space:]]
+
+[push]
+	default = upstream
+	atomic = true
+
+[rebase]
+	autoSquash = true
+	missingCommitsCheck = error
+
+[pull]
+	rebase = merges
+
+[branch]
+	sort = committerdate
+
+[diff]
+	colorMoved = dimmed-zebra
+
+[merge]
+	conflictstyle = diff3
+
+[mergetool]
+	keepBackup = false
+
+[log]
+	date = iso8601
