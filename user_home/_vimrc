@@ -1,8 +1,141 @@
-" block cursor in normal mode
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
+" be iMproved - disable vi compatibility mode, enabling full vim features
+set nocompatible
 
-" share yank/put buffer with windows copy paste
+" Use UTF-8 internally and for terminal output
+set encoding=utf-8
+set termencoding=utf-8
+
+" Load the system _vimrc for Windows-specific boilerplate (diff support etc.)
+" The user _vimrc replaces the system one entirely, so we source it explicitly.
+source $VIM/_vimrc
+
+
+" Always show the sign column (gutter) so the editor doesn't jump when
+" diagnostics or git signs appear/disappear
+set signcolumn=yes
+
+" Store swap and undo files outside the working directory to avoid
+" cluttering repos with .swp files
+set dir=~/.vim/tmp/
+set undodir=~/.vim/undo/
+" Persist undo history across sessions so you can undo after reopening a file
+set undofile
+
+" Sync vim's yank/put with the system clipboard
 if has('clipboard')
-  set clipboard=unnamed
+    set clipboard=unnamed
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Searching
+
+" Show search matches as you type
+set incsearch
+" Ignore case when searching
+set ignorecase
+" Override ignorecase when the pattern contains uppercase letters
+set smartcase
+" Highlight all search matches
+set hlsearch
+
+" Search for selected text with * in visual mode (instead of just the word
+" under the cursor)
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
+" Ctrl-L clears search highlighting (in addition to redrawing the screen)
+nnoremap <C-L> :nohlsearch<CR><C-L>
+" Ctrl-R in visual mode: replace the selected text, prompting for each match,
+" from the cursor to end of file then wrapping back to the original position
+vnoremap <C-r> "hy:,$s/<C-r>h//gc\|1,''-&&<left><left><left><left><left><left>
+  \<left><left><left><left><left>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Always show line numbers
+set number
+
+" Underline the matching bracket instead of highlighting both, reducing
+" distraction when the cursor is on a bracket
+highlight clear MatchParen
+highlight MatchParen gui=underline cterm=underline
+
+" Allow files to embed vim settings in a comment at the top/bottom
+set modeline
+set modelines=5
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Indentation
+
+" Number of spaces a tab character counts for (display width)
+set tabstop=2
+" Number of spaces inserted/removed when pressing Tab/Backspace
+set softtabstop=2
+" Number of spaces used for each step of >> / << indentation
+set shiftwidth=2
+" Insert spaces instead of tab characters
+set expandtab
+" Automatically indent new lines to match the previous line
+set autoindent
+" Smarter auto-indent: adds indent after {, if, etc.
+set smartindent
+" When re-indenting a line, copy the whitespace character style of the line above
+set copyindent
+
+" Makefiles require real tabs
+autocmd filetype make setlocal noexpandtab
+" Git config files require real tabs
+autocmd filetype gitconfig setlocal noexpandtab
+
+" Treat Jenkinsfile as Groovy for syntax highlighting
+au BufRead,BufNewFile Jenkinsfile setfiletype groovy
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Line Wrapping / Scrolling
+
+" Don't soft-wrap long lines
+set nowrap
+" Scroll horizontally 2 characters at a time (less jarring than jumping half a screen)
+set sidescroll=2
+" Keep 10 lines visible above/below the cursor when scrolling vertically
+set scrolloff=10
+" Keep 4 columns visible to the left/right of the cursor when scrolling
+" horizontally - allows cursor to reach column 100 before scrolling on a
+" 1920x1080 split-screen terminal (~104 cols wide)
+set sidescrolloff=4
+
+" Wrap git commit subject lines at 72 characters (standard convention)
+autocmd filetype gitcommit setlocal tw=72
+" Wrap prose files at 80 characters
+autocmd filetype markdown,text setlocal tw=80
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Color settings
+
+" Enable syntax highlighting
+syntax on
+" Tell vim the terminal supports 256 colors
+set t_Co=256
+" GUI-specific settings (gvim)
+if has('gui_running')
+    set lines=60 columns=181
+    winpos 560 200
+endif
+
+" Enable 24-bit true color if the terminal supports it (vim 8+ / neovim 0.1.5+)
+if (has("termguicolors"))
+    set termguicolors
+endif
+
+" Cursor shape - must come AFTER termguicolors/t_Co as those reset t_SI/t_EI.
+" $WT_SESSION is set by Windows Terminal, used to detect it reliably.
+if !empty($WT_SESSION)
+    let &t_SI = "\e[6 q"   " steady beam in insert mode
+    let &t_SR = "\e[4 q"   " steady underline in replace mode
+    let &t_EI = "\e[2 q"   " steady block in normal mode
+    let &t_ti .= "\e[2 q"  " block cursor when vim starts
+    let &t_te .= "\e[0 q"  " restore terminal default when vim exits
 endif
