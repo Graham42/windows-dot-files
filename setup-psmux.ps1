@@ -1,26 +1,34 @@
 $dotfilesRoot = $PSScriptRoot
+
+# Helper to create a symlink (handles existing symlinks, backs up other files)
+function Set-DotfileLink {
+    param([string]$Target, [string]$Link)
+    if (Test-Path $Link) {
+        $existing = Get-Item $Link
+        if ($existing.LinkType -eq 'SymbolicLink' -and $existing.Target -eq $Target) {
+            Write-Host "symlink already configured: $Link"
+            return
+        }
+        $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+        $backup = "$Link.$timestamp.bak"
+        Write-Host "Backing up existing $Link to $backup"
+        Copy-Item $Link $backup -Force
+        Remove-Item $Link
+        Write-Host "NOTE: Consider reviewing $backup and applying any local changes to the dotfiles version."
+    }
+    cmd /c mklink "$Link" "$Target" | Out-Null
+    Write-Host "Linked $Link"
+}
+
 $target = "$dotfilesRoot\user_home\.psmux.conf"
 $link = "$HOME\.psmux.conf"
 
-if (Test-Path $link) {
-    $existing = Get-Item $link
-    if ($existing.LinkType -eq 'SymbolicLink' -and $existing.Target -eq $target) {
-        Write-Host "psmux config symlink already configured"
-    } else {
-        $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-        $backup = "$link.$timestamp.bak"
-        Write-Host "Backing up existing $link to $backup"
-        Copy-Item $link $backup -Force
-        Remove-Item $link
-        Write-Host "NOTE: Consider reviewing $backup and applying any local changes to the dotfiles version."
-        cmd /c mklink "$link" "$target" | Out-Null
-        Write-Host "Linked psmux config to $link"
-    }
-} else {
-    # PS5.1 requires cmd mklink to create symlinks without elevation (even with Developer Mode)
-    cmd /c mklink "$link" "$target" | Out-Null
-    Write-Host "Linked psmux config to $link"
-}
+Set-DotfileLink -Target $target -Link $link
+
+# Custom 1g theme script
+Set-DotfileLink `
+    -Target "$dotfilesRoot\user_home\.psmux-theme-1g.ps1" `
+    -Link "$HOME\.psmux-theme-1g.ps1"
 
 # Bootstrap ppm (psmux plugin manager)
 $ppmPath = "$HOME\.psmux\plugins\ppm"
