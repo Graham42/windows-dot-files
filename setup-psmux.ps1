@@ -7,8 +7,12 @@ if (Test-Path $link) {
     if ($existing.LinkType -eq 'SymbolicLink' -and $existing.Target -eq $target) {
         Write-Host "psmux config symlink already configured"
     } else {
-        Write-Host "Removing existing $link"
+        $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+        $backup = "$link.$timestamp.bak"
+        Write-Host "Backing up existing $link to $backup"
+        Copy-Item $link $backup -Force
         Remove-Item $link
+        Write-Host "NOTE: Consider reviewing $backup and applying any local changes to the dotfiles version."
         cmd /c mklink "$link" "$target" | Out-Null
         Write-Host "Linked psmux config to $link"
     }

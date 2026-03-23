@@ -15,7 +15,12 @@ function Set-DotfileLink {
             Write-Host "Already linked: $Link"
             return
         }
+        $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+        $backup = "$Link.$timestamp.bak"
+        Write-Host "Backing up existing $Link to $backup"
+        Copy-Item $Link $backup -Force
         Remove-Item $Link -Force
+        Write-Host "NOTE: Consider reviewing $backup and applying any local changes to the dotfiles version."
     }
 
     cmd /c mklink "$Link" "$Target" | Out-Null

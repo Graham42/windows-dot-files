@@ -1,6 +1,33 @@
 {
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Task",
+      "TodoWrite",
+      "WebFetch",
+      "WebSearch",
+      "NotebookEdit",
+      "NotebookRead",
+      "AskUserQuestion",
+      "Skill",
+      "SlashCommand",
+      "BashOutput",
+      "Bash(git *)",
+      "Bash(ls *)",
+      "Bash(rg *)"
+    ],
+    "ask": ["Bash(rm -rf *)", "Bash(sudo *)", "Bash(git push *)"],
+    "defaultMode": "default"
+  },
   "env": {
-    "IS_DEMO": "true"
+    "CLAUDE_CODE_HIDE_ACCOUNT_INFO": "1",
+    "IS_DEMO": "true",
+    "CLAUDE_CODE_SESSION": "1",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "attribution": {
     "commit": "",
