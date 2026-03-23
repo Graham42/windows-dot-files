@@ -20,9 +20,7 @@ if (Test-Path $link) {
 
 # Bootstrap ppm (psmux plugin manager)
 $ppmPath = "$HOME\.psmux\plugins\ppm"
-if (Test-Path $ppmPath) {
-    Write-Host "psmux ppm already installed"
-} else {
+if (-not (Test-Path $ppmPath)) {
     Write-Host "Installing psmux ppm..."
     $tmp = "$env:TEMP\psmux-plugins"
     git clone https://github.com/marlocarlo/psmux-plugins.git $tmp
@@ -30,3 +28,7 @@ if (Test-Path $ppmPath) {
     Remove-Item $tmp -Recurse -Force
     Write-Host "psmux ppm installed"
 }
+
+# Install psmux plugins
+Write-Host "Installing psmux plugins..."
+pwsh -NoProfile -File "$ppmPath\scripts\install_plugins.ps1"
