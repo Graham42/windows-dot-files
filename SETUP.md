@@ -63,6 +63,16 @@ Restart Powershell
 
 The install script sets up the gitconfig include automatically (see [Apply dotfiles](#apply-dotfiles) below).
 
+## Install a Nerd Font
+
+Starship uses icons that require a Nerd Font. Download CascadiaMono NF from:
+
+https://www.nerdfonts.com/font-downloads
+
+Extract the zip, select all `.ttf` files, right-click → **Install for all users**.
+
+Then set the font in Windows Terminal: Settings → your profile → Appearance → Font face → **CascadiaMono Nerd Font Mono**.
+
 ## Install Starship
 
 ```powershell
