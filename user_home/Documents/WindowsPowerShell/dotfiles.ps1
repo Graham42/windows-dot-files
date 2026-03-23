@@ -7,5 +7,11 @@ if ($PSVersionTable.PSVersion.Major -ge 7) {
     $PSStyle.FileInfo.Directory = $PSStyle.Foreground.BrightBlue
 }
 
+# Git tab completion (PS7+ only - module installed to PS7 module path)
+# To enable in PS5.1 too, run: powershell -Command "Install-Module git-completion -Scope CurrentUser -Force"
+if ($PSVersionTable.PSVersion.Major -ge 7) {
+    Import-Module git-completion
+}
+
 # Starship prompt
 Invoke-Expression (&starship init powershell)
