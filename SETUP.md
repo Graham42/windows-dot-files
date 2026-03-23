@@ -62,3 +62,33 @@ winget install Git.Git
 Restart Powershell
 
 The install script sets up the gitconfig include automatically (see [Apply dotfiles](#apply-dotfiles) below).
+
+## Install Starship
+
+```powershell
+winget install Starship.Starship
+```
+
+The dotfiles profile block initializes starship automatically (see [Apply dotfiles](#apply-dotfiles) above).
+
+## Install PowerShell 7
+
+Required for psmux's plugin manager (ppm).
+
+```powershell
+winget install Microsoft.PowerShell
+```
+
+Restart your terminal after installing.
+
+Set PS7 as the default in Windows Terminal: Settings → Startup → Default profile → **PowerShell** (not "Windows PowerShell").
+
+## Install psmux
+
+```powershell
+winget install marlocarlo.psmux
+```
+
+The install script bootstraps ppm and symlinks the config automatically (see [Apply dotfiles](#apply-dotfiles) above).
+
+After running the install script, open psmux and press `Prefix + I` (`Ctrl+a I`) to install plugins.
