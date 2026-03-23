@@ -1,0 +1,49 @@
+{
+  "env": {
+    "IS_DEMO": "true"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\Graham\\.claude\\notifications\\notify.ps1\" stop claude",
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\Graham\\.claude\\notifications\\notify.ps1\" notification claude",
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -Command \"\\$json = [Console]::In.ReadToEnd() | ConvertFrom-Json; \\$f = \\$json.tool_input.file_path; if (\\$f -match '\\.ps1\\$') { \\$null = [System.Management.Automation.PSParser]::Tokenize((Get-Content -Raw \\$f), [ref]\\$null) }\""
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bunx -y ccstatusline@latest",
+    "padding": 0
+  }
+}
