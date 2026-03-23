@@ -37,6 +37,6 @@ Set-ProfileBlock "$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile
 
 # PS7 profile (if installed)
 $ps7Profile = "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
-if (Test-Path (Split-Path $ps7Profile) -or (Get-Command pwsh -ErrorAction SilentlyContinue)) {
+if ((Test-Path (Split-Path $ps7Profile)) -or (Get-Command pwsh -ErrorAction SilentlyContinue)) {
     Set-ProfileBlock $ps7Profile
 }
