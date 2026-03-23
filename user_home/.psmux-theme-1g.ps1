@@ -92,6 +92,7 @@ $right += "#[fg=${amber},bg=${bg3}]${sRL}#[fg=${bg0},bg=${amber},bold] ${iCal} %
 & $PSMUX set -g window-status-bell-style       "fg=${red},bg=${bg0},bold"        | Out-Null
 & $PSMUX set -g pane-active-border-style       "fg=${amber}"                     | Out-Null
 & $PSMUX set -g pane-border-style              "fg=${bg3}"                       | Out-Null
+& $PSMUX set -g pane-border-indicators         "arrows"                          | Out-Null
 & $PSMUX set -g message-style                  "bg=${bg1},fg=${fg}"              | Out-Null
 & $PSMUX set -g message-command-style          "bg=${bg1},fg=${fg}"              | Out-Null
 & $PSMUX set -g mode-style                     "bg=${amber},fg=${bg0}"           | Out-Null
