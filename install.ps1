@@ -3,6 +3,7 @@ $dotfilesRoot = $PSScriptRoot
 . "$dotfilesRoot\setup-gitconfig.ps1"
 . "$dotfilesRoot\setup-psmux.ps1"
 . "$dotfilesRoot\setup-claude.ps1"
+. "$dotfilesRoot\setup-starship.ps1"
 
 $marker_begin = "# BEGIN windows-dot-files"
 $marker_end = "# END windows-dot-files"
