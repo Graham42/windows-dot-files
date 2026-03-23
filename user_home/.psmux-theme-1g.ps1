@@ -64,8 +64,8 @@ $pfx      = "#{?client_prefix,#[fg=${red}]#[bg=${bg0}]${sRL}#[bg=${red}]#[fg=${b
 & $PSMUX set -g window-status-separator ""                        | Out-Null
 
 # Left: session badge
-$left  = "#[bg=${amber},fg=${bg0},bold]🪟${iSess} #S "
-$left += "#[fg=${amber},bg=${bg1}]${sLR}"
+$left  = "#[bg=${bg0},fg=${amber}] 🪟  "
+$left += "#[bg=${amber},fg=${bg0},bold]${iSess} #S "
 $left += "#[fg=${gray2},bg=${bg1}] ${iUser} #{user} "
 $left += "#[fg=${bg1},bg=${bg0}]${sLR} "
 & $PSMUX set -g status-left $left          | Out-Null
