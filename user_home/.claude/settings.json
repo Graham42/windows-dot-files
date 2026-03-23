@@ -20,8 +20,19 @@
       "Bash(ls *)",
       "Bash(rg *)"
     ],
-    "ask": ["Bash(rm -rf *)", "Bash(sudo *)", "Bash(git push *)"],
+    "ask": [
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(git push *)"
+    ],
     "defaultMode": "default"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "enabledPlugins": {
+    "commit-commands@claude-plugins-official": true
   },
   "env": {
     "CLAUDE_CODE_HIDE_ACCOUNT_INFO": "1",
@@ -29,31 +40,27 @@
     "CLAUDE_CODE_SESSION": "1",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
-  "attribution": {
-    "commit": "",
-    "pr": ""
-  },
   "hooks": {
     "Stop": [
       {
+        "matcher": "",
         "hooks": [
           {
-            "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\Graham\\.claude\\notifications\\notify.ps1\" stop claude",
-            "type": "command"
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\graha\\.claude\\notifications\\notify.ps1\" stop claude"
           }
-        ],
-        "matcher": ""
+        ]
       }
     ],
     "Notification": [
       {
+        "matcher": "",
         "hooks": [
           {
-            "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\Graham\\.claude\\notifications\\notify.ps1\" notification claude",
-            "type": "command"
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File \"C:\\Users\\graha\\.claude\\notifications\\notify.ps1\" notification claude"
           }
-        ],
-        "matcher": ""
+        ]
       }
     ],
     "PostToolUse": [
@@ -62,7 +69,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell -NoProfile -Command \"\\$json = [Console]::In.ReadToEnd() | ConvertFrom-Json; \\$f = \\$json.tool_input.file_path; if (\\$f -match '\\.ps1\\$') { \\$null = [System.Management.Automation.PSParser]::Tokenize((Get-Content -Raw \\$f), [ref]\\$null) }\""
+            "command": "powershell -NoProfile -Command \"$json = [Console]::In.ReadToEnd() | ConvertFrom-Json; $f = $json.tool_input.file_path; if ($f -match [regex]::Escape('.ps1')) { $null = [System.Management.Automation.PSParser]::Tokenize((Get-Content -Raw $f), [ref]$null) }\""
           }
         ]
       }

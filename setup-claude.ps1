@@ -29,3 +29,14 @@ function Set-DotfileLink {
 
 Set-DotfileLink "$sourceDir\CLAUDE.md" "$claudeHome\CLAUDE.md"
 Set-DotfileLink "$sourceDir\settings.json" "$claudeHome\settings.json"
+
+# Install code-notify for Claude desktop notifications
+# https://github.com/mylee04/code-notify
+$codeNotifyDir = "$HOME\.code-notify"
+if (Test-Path "$codeNotifyDir\bin") {
+    Write-Host "code-notify already installed"
+} else {
+    Write-Host "Installing code-notify..."
+    $installScript = (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mylee04/code-notify/main/scripts/install-windows.ps1" -UseBasicParsing).Content
+    Invoke-Expression $installScript
+}
